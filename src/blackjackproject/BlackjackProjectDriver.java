@@ -23,15 +23,13 @@
  */
 package blackjackproject;
 import java.awt.Image;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -45,7 +43,7 @@ public class BlackjackProjectDriver extends JFrame
     public static int computerWinNum = 0;
     public static String pWins = String.valueOf(playerWinNum);
     public static String cWins = String.valueOf(computerWinNum);
-    public ImageIcon icon = new ImageIcon(getClass().getResource("images/icon.png"));
+    public ImageIcon mainIcon = new ImageIcon(getClass().getResource("images/icon.png"));
 
     /** Creates new form BlackjackProjectDriver */
     public BlackjackProjectDriver()
@@ -82,7 +80,7 @@ public class BlackjackProjectDriver extends JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Blackjack");
-        setIconImage(icon.getImage());
+        setIconImage(mainIcon.getImage());
 
         mainJPanel.setLayout(new java.awt.GridLayout(3, 0));
 
@@ -137,13 +135,6 @@ public class BlackjackProjectDriver extends JFrame
         mainJPanel.add(playerWinsLabel);
 
         playerWins.setText(pWins);
-        playerWins.addPropertyChangeListener(new java.beans.PropertyChangeListener()
-        {
-            public void propertyChange(java.beans.PropertyChangeEvent evt)
-            {
-                playerWinsPropertyChange(evt);
-            }
-        });
         mainJPanel.add(playerWins);
 
         computerWinsLabel.setText("CPU Wins: ");
@@ -204,6 +195,8 @@ public class BlackjackProjectDriver extends JFrame
           "game. In addition, the dealer will also be given two cards.\n" +
           "The player will only know the dealer's first card. From this, \n" +
           "the player can get another card or stay with the cards they have.\n" +
+          "All cards are worth their numeric value, with royals being worth\n" +
+          "10 points, and ace being 1 or 11 depending on the situation.\n" +
           "Whoever has the closest total to 21 at the end wins the game!\n" +
           "Good Luck and Remember to have fun!\n";
         JOptionPane.showMessageDialog(rootPane, helpText);
@@ -216,8 +209,7 @@ public class BlackjackProjectDriver extends JFrame
           "This program is licensed under the MIT License. To learn more about this, go to\n" +
           "https://opensource.org/licenses/MIT for the full text of the license.\n" +
           "Main GUI Icon made by OpenIcons, released under the CC0 Public Domain License.\n" +
-          "Main Card Images made by Byron Knoll, released in the public domain.\n"
-          ;
+          "Main Card Images made by Byron Knoll, released in the public domain.\n";
         JOptionPane.showMessageDialog(rootPane, aboutText);
     }//GEN-LAST:event_aboutJButtonActionPerformed
 
@@ -226,15 +218,10 @@ public class BlackjackProjectDriver extends JFrame
         startGame();
     }//GEN-LAST:event_startJButtonActionPerformed
 
-    private void playerWinsPropertyChange(java.beans.PropertyChangeEvent evt)//GEN-FIRST:event_playerWinsPropertyChange
-    {//GEN-HEADEREND:event_playerWinsPropertyChange
-        playerWins.setText(pWins);
-    }//GEN-LAST:event_playerWinsPropertyChange
-
     /**
      * @param args the command line arguments
      */
-    public static void main( String args[] )
+    public static void main(String args[])
     {
         /* Set the System look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -289,25 +276,17 @@ public class BlackjackProjectDriver extends JFrame
         Deck cardDeck = new Deck();
         Hand playerHand = new Hand();
         Hand computerHand = new Hand();
+        Image[] images = new Image[5];
+        ImageIcon[] icons = new ImageIcon[5];
 
-        cCard1.setIcon(null);
-        cCard1.revalidate();
-        pCard1.setIcon(null);
-        pCard1.revalidate();
-        pCard2.setIcon(null);
-        pCard2.revalidate();
-        pCard3.setIcon(null);
-        pCard3.revalidate();
-        pCard4.setIcon(null);
-        pCard4.revalidate();
-
+        clearCards();
         cardDeck.createDeck();
 
         computerHand.add(cardDeck.getCard());
 
-        Image image1 = computerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
-        ImageIcon icon1 = new ImageIcon(image1);
-        cCard1.setIcon(icon1);
+        images[0] = computerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
+        icons[0]= new ImageIcon(images[0]);
+        cCard1.setIcon(icons[0]);
 
         while(computerHand.totalValue() < 17)
         {
@@ -316,15 +295,15 @@ public class BlackjackProjectDriver extends JFrame
 
         playerHand.add(checkCard(cardDeck.getCard()));
 
-        Image image2 = playerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
-        ImageIcon icon2 = new ImageIcon(image2);
-        pCard1.setIcon(icon2);
+        images[1] = playerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
+        icons[1] = new ImageIcon(images[1]);
+        pCard1.setIcon(icons[1]);
 
         playerHand.add(checkCard(cardDeck.getCard()));
-        
-        Image image3 = playerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
-        ImageIcon icon3 = new ImageIcon(image3);
-        pCard2.setIcon(icon3);
+
+        images[2] = playerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
+        icons[2] = new ImageIcon(images[2]);
+        pCard2.setIcon(icons[2]);
 
         do
         {
@@ -345,15 +324,15 @@ public class BlackjackProjectDriver extends JFrame
                 playerHand.add(checkCard(cardDeck.getCard()));
                 if(pCard3.getIcon() == null)
                 {
-                    Image image4= playerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
-                    ImageIcon icon4 = new ImageIcon(image4);
-                    pCard3.setIcon(icon4);
+                    images[3] = playerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
+                    icons[3] = new ImageIcon(images[3]);
+                    pCard3.setIcon(icons[3]);
                 }
                 else
                 {
-                    Image image5 = playerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
-                    ImageIcon icon5 = new ImageIcon(image5);
-                    pCard4.setIcon(icon5);
+                    images[4] = playerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
+                    icons[4] = new ImageIcon(images[4]);
+                    pCard4.setIcon(icons[4]);
                 }
             }
         } while(choice == 0 && playerHand.totalValue() < 21);
@@ -413,6 +392,20 @@ public class BlackjackProjectDriver extends JFrame
                 card.setPointValue(1);
         }
         return card;
+    }
+
+    public void clearCards()
+    {
+        cCard1.setIcon(null);
+        cCard1.revalidate();
+        pCard1.setIcon(null);
+        pCard1.revalidate();
+        pCard2.setIcon(null);
+        pCard2.revalidate();
+        pCard3.setIcon(null);
+        pCard3.revalidate();
+        pCard4.setIcon(null);
+        pCard4.revalidate();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
