@@ -34,7 +34,6 @@ public class Card
     private String cardType;
     private String cardSuite;
     private ImageIcon cardImage;
-    //public String test = "";
     public Card(int value, String type, String suite)
     {
         this.pointValue = value;
@@ -42,7 +41,6 @@ public class Card
         this.cardSuite = suite;
         String imageLink = "playingcards/" + cardType + cardSuite + ".png";
         cardImage = new ImageIcon(getClass().getResource(imageLink));
-        //test = imageLink;
     }
 
     public int getPointValue()
@@ -73,8 +71,8 @@ public class Card
     @Override
     public String toString()
     {
-        return "(points: " + this.getPointValue() +
+        return "(point value: " + this.getPointValue() +
           ", type: " + this.getCardType() +
-          ", suite: " + this.getCardSuite() + ")";// + test;
+          ", suite: " + this.getCardSuite() + ")";
     }
 }

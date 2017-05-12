@@ -30,7 +30,7 @@ import java.util.Scanner;
  */
 public class Blackjack
 {
-    public static void main( String[] args )
+    public static void main(String[] args)
     {
         Scanner input = new Scanner(System.in);
         int choice = 0;
@@ -42,7 +42,7 @@ public class Blackjack
 
         computerHand.add(cardDeck.getCard());
         System.out.println("CPU Card 1: " + computerHand.toString());
-        while (computerHand.totalValue() < 17)
+        while(computerHand.totalValue() < 17)
         {
             computerHand.add(cardDeck.getCard());
         }
@@ -50,41 +50,37 @@ public class Blackjack
         playerHand.add(cardDeck.getCard());
         playerHand.add(cardDeck.getCard());
         System.out.println("Your Cards: " + playerHand.toString());
-//        while(!cardDeck.isEmpty())
-//        {
-//            System.out.println(cardDeck.getCard().toString());
-//        }
         do
         {
-            System.out.println("Your total is : " + playerHand.totalValue());
-            System.out.println("Would you like to hit or stay?(1 to hit, 2 to stay) : ");
+            System.out.println("Your total is: " + playerHand.totalValue() + " points.");
+            System.out.println("Would you like to hit or stay?(1 to hit, 2 to stay): ");
             choice = input.nextInt();
             if(choice == 1)
             {
                 playerHand.add(cardDeck.getCard());
             }
         } while(choice == 1 && playerHand.totalValue() < 21);
-        System.out.println("Your Final Total: " + playerHand.totalValue());
-        System.out.println("Computer Final Total: " + computerHand.totalValue());
-        if(computerHand.totalValue() > 21)
+        System.out.println("Your Final Total: " + playerHand.totalValue() + " points.");
+        System.out.println("Computer Final Total: " + computerHand.totalValue()+ " points.");
+        if(playerHand.totalValue() > 21)
         {
-            System.out.println("Dealer has BUST! You win this round.");
+            System.out.println("You have a BUST! The Dealer wins this round!");
         }
-        else if(playerHand.totalValue() > 21)
+        else if(computerHand.totalValue() > 21)
         {
-            System.out.println("You have BUST! You lose this round.");
+            System.out.println("The Dealer has a BUST! You win this round!");
         }
         else if(playerHand.totalValue() <= 21 && computerHand.totalValue() < playerHand.totalValue())
         {
-            System.out.println("You Win this round!");
+            System.out.println("Your score was HIGHER! You win this round!");
         }
         else if(computerHand.totalValue() <= 21 && playerHand.totalValue() < computerHand.totalValue())
         {
-            System.out.println("You Lose! The dealer won!");
+            System.out.println("Your score was LOWER! The Dealer wins this round!");
         }
         else if(playerHand.totalValue() == computerHand.totalValue())
         {
-            System.out.println("Its a push! No one wins!");
+            System.out.println("Its a PUSH! No one wins this round!");
         }
     }
 }

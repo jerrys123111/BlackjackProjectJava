@@ -89,7 +89,6 @@ public class Deck
         for(int x = deck.length - 1;x > 0;x--)
         {
             int randNum = rand.nextInt(x + 1);
-            //int randNum = (int)(Math.random() * (x + 1));
             Card tempCard = deck[x];
             deck[x] = deck[randNum];
             deck[randNum] = tempCard;
@@ -99,10 +98,5 @@ public class Deck
     public Card getCard()
     {
         return deckQueue.dequeue();
-    }
-
-    public boolean isEmpty()
-    {
-        return deckQueue.isEmpty();
     }
 }

@@ -152,11 +152,24 @@ public class BlackjackProjectDriver extends JFrame
         computerWins.setText(cWins);
         mainJPanel.add(computerWins);
 
-        computerCardJPanel.setLayout(new javax.swing.BoxLayout(computerCardJPanel, javax.swing.BoxLayout.LINE_AXIS));
-
         cCardLabel.setText("Dealer's Card: ");
-        computerCardJPanel.add(cCardLabel);
-        computerCardJPanel.add(cCard1);
+
+        javax.swing.GroupLayout computerCardJPanelLayout = new javax.swing.GroupLayout(computerCardJPanel);
+        computerCardJPanel.setLayout(computerCardJPanelLayout);
+        computerCardJPanelLayout.setHorizontalGroup(
+            computerCardJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(computerCardJPanelLayout.createSequentialGroup()
+                .addComponent(cCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(cCardLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        computerCardJPanelLayout.setVerticalGroup(
+            computerCardJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(computerCardJPanelLayout.createSequentialGroup()
+                .addComponent(cCardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cCard1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -165,7 +178,7 @@ public class BlackjackProjectDriver extends JFrame
             .addGroup(layout.createSequentialGroup()
                 .addComponent(mainJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(computerCardJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
+                .addComponent(computerCardJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,19 +283,32 @@ public class BlackjackProjectDriver extends JFrame
 
     public void startGame()
     {
+        int cardHeight = 182, cardWidth = 125;
         int choice;
         String resultText = "";
         Deck cardDeck = new Deck();
         Hand playerHand = new Hand();
         Hand computerHand = new Hand();
 
+        cCard1.setIcon(null);
+        cCard1.revalidate();
+        pCard1.setIcon(null);
+        pCard1.revalidate();
+        pCard2.setIcon(null);
+        pCard2.revalidate();
+        pCard3.setIcon(null);
+        pCard3.revalidate();
+        pCard4.setIcon(null);
+        pCard4.revalidate();
+
         cardDeck.createDeck();
 
         computerHand.add(cardDeck.getCard());
 
+        Image image1 = computerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
+        ImageIcon icon1 = new ImageIcon(image1);
+        cCard1.setIcon(icon1);
 
-        cCard1.setIcon(computerHand.getCardImage());//.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
-        cCard1.setSize(10, 10);
         while(computerHand.totalValue() < 17)
         {
             computerHand.add(cardDeck.getCard());
@@ -290,11 +316,15 @@ public class BlackjackProjectDriver extends JFrame
 
         playerHand.add(checkCard(cardDeck.getCard()));
 
-        //pCard1.setIcon(playerHand.getCardImage());
+        Image image2 = playerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
+        ImageIcon icon2 = new ImageIcon(image2);
+        pCard1.setIcon(icon2);
 
         playerHand.add(checkCard(cardDeck.getCard()));
-
-        //pCard2.setIcon(playerHand.getCardImage());
+        
+        Image image3 = playerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
+        ImageIcon icon3 = new ImageIcon(image3);
+        pCard2.setIcon(icon3);
 
         do
         {
@@ -304,7 +334,7 @@ public class BlackjackProjectDriver extends JFrame
                 "Stay!"
             };
             choice = JOptionPane.showOptionDialog(rootPane,
-              "Your total is: " + playerHand.totalValue() + ".\nWould you like to hit or stay?",
+              "Your total is: " + playerHand.totalValue() + " points.\nWould you like to hit or stay?",
               "Blackjack Game",
               JOptionPane.YES_NO_OPTION,
               JOptionPane.QUESTION_MESSAGE,
@@ -313,39 +343,47 @@ public class BlackjackProjectDriver extends JFrame
             if(choice == 0)
             {
                 playerHand.add(checkCard(cardDeck.getCard()));
-//                if(pCard3.getIcon() == null)
-//                    pCard3.setIcon(playerHand.getCardImage());
-//                else
-//                    pCard4.setIcon(playerHand.getCardImage());
+                if(pCard3.getIcon() == null)
+                {
+                    Image image4= playerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
+                    ImageIcon icon4 = new ImageIcon(image4);
+                    pCard3.setIcon(icon4);
+                }
+                else
+                {
+                    Image image5 = playerHand.getCardImage().getImage().getScaledInstance(cardWidth, cardHeight, Image.SCALE_SMOOTH);
+                    ImageIcon icon5 = new ImageIcon(image5);
+                    pCard4.setIcon(icon5);
+                }
             }
         } while(choice == 0 && playerHand.totalValue() < 21);
 
         JOptionPane.showMessageDialog(rootPane, "Your Final Total: " + playerHand.totalValue() +
-          ".\nComputer's Final Total: " + computerHand.totalValue() + ".");
+          " points.\nComputer's Final Total: " + computerHand.totalValue() + " points.");
 
         if(playerHand.totalValue() > 21)
         {
-            resultText = "You have BUST! You lose this round.";
+            resultText = "You have a BUST! The Dealer wins this round!";
             computerWinNum++;
         }
         else if(computerHand.totalValue() > 21)
         {
-            resultText = "Dealer has BUST! You win this round.";
+            resultText = "The Dealer has a BUST! You win this round!";
             playerWinNum++;
         }
         else if(playerHand.totalValue() <= 21 && computerHand.totalValue() < playerHand.totalValue())
         {
-            resultText = "You Win this round!";
+            resultText = "Your score was HIGHER! You win this round!";
             playerWinNum++;
         }
         else if(computerHand.totalValue() <= 21 && playerHand.totalValue() < computerHand.totalValue())
         {
-            resultText = "You Lose! The dealer won!";
+            resultText = "Your score was LOWER! The Dealer wins this round!";
             computerWinNum++;
         }
         else if(playerHand.totalValue() == computerHand.totalValue())
         {
-            resultText = "Its a push! No one wins!";
+            resultText = "Its a PUSH! No one wins this round!";
         }
         pWins = String.valueOf(playerWinNum);
         cWins = String.valueOf(computerWinNum);
@@ -360,8 +398,8 @@ public class BlackjackProjectDriver extends JFrame
         {
             Object[] options =
             {
-                "1",
-                "11"
+                "1 Point!",
+                "11 Points!"
             };
             int ask = JOptionPane.showOptionDialog(rootPane,
               "You drew an Ace. Would you like it to be worth 1 or 11 points?",
