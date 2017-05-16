@@ -39,11 +39,11 @@ public class BlackjackProjectDriver extends JFrame
 {
     private static final long serialVersionUID = 1297545770008178021L;
 
-    public static int playerWinNum = 0;
-    public static int computerWinNum = 0;
-    public static String pWins = String.valueOf(playerWinNum);
-    public static String cWins = String.valueOf(computerWinNum);
-    public ImageIcon mainIcon = new ImageIcon(getClass().getResource("images/icon.png"));
+    private static int playerWinNum = 0;
+    private static int computerWinNum = 0;
+    private static String pWins = String.valueOf(playerWinNum);
+    private static String cWins = String.valueOf(computerWinNum);
+    private ImageIcon mainIcon = new ImageIcon(getClass().getResource("images/icon.png"));
 
     /** Creates new form BlackjackProjectDriver */
     public BlackjackProjectDriver()
